@@ -117,8 +117,11 @@ class MulticastServer():
                         },
                     }
                 ]
-                client = InfluxDBClient(self.db_host, self.db_port, self.db_user, self.db_pass, self.db_name)
-                client.write_points(json_body)
+                try:
+                    client = InfluxDBClient(self.db_host, self.db_port, self.db_user, self.db_pass, self.db_name)
+                    client.write_points(json_body)
+                except:
+                    pass
 
                 report_step = time.time()
                 total_received = 0
