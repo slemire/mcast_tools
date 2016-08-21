@@ -144,8 +144,9 @@ class MulticastServer():
                 total_good = total_good + 1
             elif seq_num:
                 logging.warn('Received packet with invalid seq_num from %s, seq_num = %d, delta = %d' % (sender, seq_num, seq_num - last_seq_num))   
-                last_seq_num = seq_num
                 total_lost = total_lost + (seq_num - last_seq_num + 1)
+                total_received = total_received + (seq_num - last_seq_num)
+                last_seq_num = seq_num
             else:
                 logging.warn('Received invalid packet from %s, port %d, payload = %s' % (sender, data))
                 total_invalid = total_invalid + 1
