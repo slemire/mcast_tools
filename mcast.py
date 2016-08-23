@@ -5,6 +5,7 @@
 import argparse
 import json
 import logging
+import platform
 import re
 import socket
 import struct
@@ -87,7 +88,10 @@ class MulticastServer():
         # Bind it to the port
         s.bind(('', self.port))
 
-        group_bin = socket.inet_pton(addrinfo[0], addrinfo[4][0])
+        if platform.system() == 'Windows':
+            group_bin = socket.inet_aton(addrinfo[4][0])
+        else:
+            group_bin = socket.inet_pton(addrinfo[0], addrinfo[4][0])
         # Join group
         if addrinfo[0] == socket.AF_INET: # IPv4
             mreq = group_bin + struct.pack('=I', socket.INADDR_ANY)
